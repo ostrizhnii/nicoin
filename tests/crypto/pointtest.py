@@ -30,6 +30,3 @@ class PointTest(TestCase):
         p1 = Point(-1, -1, 5, 7)
         p_result = Point(18, 77, 5, 7)
         self.assertTrue(p1 + p1 == p_result)
-        p1 = Point(18, 77, 5, 7)
-        p_result = Point('4.248313374936751560', '10.242843069394764453', 5, 7)
-        self.assertTrue(p1 + p1 == p_result)

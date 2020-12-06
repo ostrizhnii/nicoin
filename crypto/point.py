@@ -1,13 +1,9 @@
-from decimal import *
-
-
 class Point:
     def __init__(self, x, y, a, b):
-        getcontext().prec = 20
-        self.x = Decimal(x) if x is not None else x
-        self.y = Decimal(y) if y is not None else y
-        self.a = Decimal(a) if a is not None else a
-        self.b = Decimal(b) if b is not None else b
+        self.x = x
+        self.y = y
+        self.a = a
+        self.b = b
         if self.x is None and self.y is None:
             return
         if self.y ** 2 != self.x ** 3 + self.a * self.x + self.b:
@@ -47,3 +43,13 @@ class Point:
             return self.__class__(x, y, self.a, self.b)
         return self.__class__(self.x + other.x, self.y + other.y, self.a, self.b)
 
+    def __rmul__(self, coefficient):
+        coef = coefficient
+        current = self
+        result = self.__class__(None, None, self.a, self.b)
+        while coef:
+            if coef & 1:
+                result += current
+            current += current
+            coef >>= 1
+        return result
