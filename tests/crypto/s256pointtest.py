@@ -45,3 +45,15 @@ class S256PointTest(TestCase):
         public_key = PrivateKey(e).public
         self.assertTrue(S256Point.parse(bytes.fromhex(expect)) == public_key)
         self.assertTrue(public_key.sec(True).hex() == expect)
+
+    def test_address(self):
+        private_key = PrivateKey(5002)
+        expected_address = 'mmTPbXQFxboEtNRkwfh6K51jvdtHLxGeMA'
+        self.assertEqual(expected_address, private_key.public.address(False, True))
+        private_key = PrivateKey(2020 ** 5)
+        expected_address = 'mopVkxp8UhXqRYbCYJsbeE1h1fiF64jcoH'
+        self.assertEqual(expected_address, private_key.public.address(True, True))
+        private_key = PrivateKey(0x12345deadbeef)
+        expected_address = '1F1Pn2y6pDb68E5nYJJeba4TLg2U7B6KF1'
+        self.assertEqual(expected_address, private_key.public.address(True, False))
+

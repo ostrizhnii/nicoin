@@ -1,3 +1,5 @@
+from crypto.helpers.encode_base58 import encode_base58_checksum
+from crypto.helpers.hash160 import hash160
 from crypto.point import Point
 from crypto.s256fieldelement import S256FieldElement, P
 
@@ -62,6 +64,13 @@ class S256Point(Point):
             return cls(x, even_beta)
         else:
             return cls(x, odd_beta)
+
+    def hash160(self, compressed=True):
+        return hash160(self.sec(compressed))
+
+    def address(self, compressed=True, testnet=False):
+        prefix = b'\x6f' if testnet else b'\x00'
+        return encode_base58_checksum(prefix + self.hash160(compressed))
 
 
 G = S256Point(GX, GY)
