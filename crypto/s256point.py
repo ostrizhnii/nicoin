@@ -1,5 +1,6 @@
 from crypto.helpers.encode_base58 import encode_base58_checksum
 from crypto.helpers.hash160 import hash160
+from crypto.helpers.numendian import big_endian_to_int, int_to_bit_endian
 from crypto.point import Point
 from crypto.s256fieldelement import S256FieldElement, P
 
@@ -38,18 +39,18 @@ class S256Point(Point):
     def sec(self, compressed=True):
         if compressed:
             marker = b'\x02' if self.y.num % 2 == 0 else b'\x03'
-            return marker + self.x.num.to_bytes(32, 'big')
+            return marker + int_to_bit_endian(self.x.num)
 
-        return b'\x04' + self.x.num.to_bytes(32, 'big') + self.y.num.to_bytes(32, 'big')
+        return b'\x04' + int_to_bit_endian(self.x.num) + int_to_bit_endian(self.y.num)
 
     @classmethod
     def parse(cls, sec_bin):
         marker = sec_bin[0]
         if marker == 4:
-            x = int.from_bytes(sec_bin[1:33], 'big')
-            y = int.from_bytes(sec_bin[33:65], 'big')
+            x = big_endian_to_int(sec_bin[1:33])
+            y = big_endian_to_int(sec_bin[33:65])
             return cls(x, y)
-        x = S256FieldElement(int.from_bytes(sec_bin[1:], 'big'))
+        x = S256FieldElement(big_endian_to_int(sec_bin[1:]))
         # right side of the equation y^2 = x^3 + 7
         alpha = x ** 3 + S256FieldElement(B)
         # solving left side of the equation y^2 = x^3 + 7

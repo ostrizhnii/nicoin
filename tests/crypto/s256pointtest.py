@@ -1,13 +1,14 @@
 from unittest import TestCase
 
 from crypto.helpers.hash256 import hash256
+from crypto.helpers.numendian import big_endian_to_int
 from crypto.privatekey import PrivateKey
 from crypto.s256point import S256Point
 
 
 class S256PointTest(TestCase):
     def test_sign_and_verify(self):
-        message_hash = int.from_bytes(hash256(b'Programming Bitcoin!'), 'big')
+        message_hash = big_endian_to_int(hash256(b'Programming Bitcoin!'))
         private_key = PrivateKey(12345)
         signature = private_key.sign(message_hash)
         self.assertTrue(private_key.public.verify(message_hash, signature))
