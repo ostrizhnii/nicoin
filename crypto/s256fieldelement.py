@@ -1,5 +1,7 @@
 from crypto.fieldelement import FieldElement
-from crypto.secp256k1 import *
+
+
+P = 2 ** 256 - 2 ** 32 - 977
 
 
 class S256FieldElement(FieldElement):
