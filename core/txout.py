@@ -1,4 +1,5 @@
 from crypto.helpers.numendian import little_endian_to_int, int_to_little_endian
+from script.script import Script
 
 
 class TxOut:

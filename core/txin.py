@@ -1,5 +1,6 @@
 from core.txfetcher import TxFetcher
 from crypto.helpers.numendian import little_endian_to_int, int_to_little_endian
+from script.script import Script
 
 
 class TxIn:
@@ -16,7 +17,7 @@ class TxIn:
     def parse(cls, stream):
         prev_tx = stream.read(32)[::-1]
         prev_index = little_endian_to_int(stream.read(4))
-        sig_script = Script.paarse(stream)
+        sig_script = Script.parse(stream)
         sequence = little_endian_to_int(stream.read(4))
         return cls(prev_tx, prev_index, sig_script, sequence)
 

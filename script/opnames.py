@@ -1,0 +1,6 @@
+OP_CODE_NAMES = {
+    118: 'OP_DUP',
+    169: 'OP_HASH160',
+    170: 'OP_HASH256',
+    172: 'OP_CHECKSIG'
+}
